@@ -1,0 +1,100 @@
+# Github stats for biojulia repos
+
+```{julia}
+includet("gh-module.jl")
+using .GHInfo
+using DataFrames
+using Dates
+using CairoMakie
+```
+
+```{julia}
+stars = DataFrame()
+for repo in ("BioSequences.jl", "Automa.jl", "BioStructures.jl", "SingleCellProjections.jl")
+    df = monthly_star_history("BioJulia/$repo")
+    df.repo .= repo
+    append!(stars, df)
+end
+```
+
+```{julia}
+fig = Figure(; size=(800,400));
+ax = Axis(fig[1,1]; ylabel="Github stars", xlabel="date")
+
+for sdf in groupby(stars, "repo")
+    scatterlines!(ax, sdf.month, sdf.cumulative, label=first(sdf.repo))
+end
+Legend(fig[1,2], ax)
+
+save("../images/stars.svg", fig)
+fig
+```
+
+```{julia}
+stats = org_repos("BioJulia")
+sort!(stats, "stars"; rev=true)
+```
+
+```{julia}
+stats_keep = subset(stats, ["archived", "pushed", "last_release_date"] => ByRow((a, p, l)-> begin
+    a && return false
+    ismissing(l) && return false
+    (today() - p) < Day(365*3)
+end))
+
+```
+
+```{julia}
+fig2 = Figure(; size=(800,400));
+ax1 = Axis(fig2[1,1]; xlabel="stars", ylabel="repos")
+ax2 = Axis(fig2[1,2]; xlabel="open issues", ylabel="repos")
+ax3 = Axis(fig2[2,1]; xlabel="days since last commit", ylabel="repos")
+ax4 = Axis(fig2[2,2]; xlabel="days since last release", ylabel="repos")
+ax5 = Axis(fig2[1:2,3]; ylabel="repos", xticks=([1,2],["v0.x", "v1.0+"]))
+
+hist!(ax1, stats_keep.stars, bins=8)
+hist!(ax2, stats_keep.open_issues, bins=8)
+hist!(ax3, getproperty.(Day.(today() .- stats_keep.pushed), :value), bins=8)
+hist!(ax4, getproperty.(Day.(today() .- stats_keep.last_release_date), :value), bins=8)
+let
+    unstable = count(v-> startswith(v, "v0"), stats_keep.last_release)
+    stable = nrow(stats_keep) - unstable
+    barplot!(ax5, [unstable, stable])
+end
+
+Label(fig2[0,:], "Active Repos with commits in the last 3 years")
+save("../images/repostats.svg", fig2)
+fig2
+```
+
+```{julia}
+commits = commit_table("BioJulia", stats_keep.name, today() - Year(3))   # repo_names from org_repos().name
+```
+
+```{julia}
+# commits per committer (across the org)
+per_committer = combine(groupby(commits, :committer), nrow => :commits)
+sort!(per_committer, :commits, rev=true)
+
+n_active = nrow(per_committer)   # number of active committers in the window
+```
+
+```{julia}
+fig3,ax,hst = hist(per_committer.commits; axis=(; ylabel="number of commits", xlabel="committers"), figure=(; size=(800, 400)))
+
+targets = [(23, 1), (430, 1), (365, 1)]
+labels  = ["Me!", "Rasmus", "Jakob"]   # your text
+dx, dy = 20, 4
+signs = [-1, +1, +1]
+
+for ((x, y), s, lbl) in zip(targets, signs, labels)
+    tail = (x - s*dx, y + dy)
+    arrows!(ax, [tail[1]], [tail[2]], [s*dx], [-dy])
+    text!(ax, tail...; text=lbl,
+          align = s < 0 ? (:left, :bottom) : (:right, :bottom),
+          offset = (s*4, 2))
+end
+Label(fig3[0,1], "$(n_active) commiters in the last 3 years"; tellwidth=false)
+save("../images/commiters.svg", fig3)
+fig3
+```
