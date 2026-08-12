@@ -243,7 +243,7 @@ ds["transcripts_raw"] = SpatialPoints(df_raw;
 <div class="flex justify-center items-center gap-4">
 
 ```julia
-roi = shapes(ds, overview_roi)
+roi = shapes(ds, "overview_roi")
 
 sub = view(points(ds), roi) # or points(ds)[roi]
 ```
