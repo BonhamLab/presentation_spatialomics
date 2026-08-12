@@ -65,6 +65,10 @@ Mixing these up produces two different failure modes: a `<img src="/images/...">
 
 `<Toc minDepth="1" maxDepth="1" />` (used on the Agenda slide) shows only level-1 headings that aren't marked `hideInToc`. The per-layout default (`layout: section` → shown, everything else → hidden) is set by `@bonhamlab/slidev-template`'s `setup/preparser.ts` — this repo doesn't need its own. A slide only needs an explicit `hideInToc:` if it wants to *override* that default (e.g. a `layout: section` slide you don't want in the Toc for some reason).
 
+## Supplementary: GitHub stats scripts (`code/`)
+
+`code/` is a standalone Julia/Quarto tool used to generate the GitHub-activity plots (stars, repo health, committer histograms) embedded in the deck as images — it's not part of the Slidev build. `code/gh-module.jl` defines a `GHInfo` module wrapping the `gh` CLI (via `gh api`, with `--paginate --slurp` for pagination) to pull star history and commit/repo stats for the BioJulia org; `code/github-stats.qmd` is a Quarto notebook that calls into it with CairoMakie and saves figures to `../images/` (i.e. this repo's `images/`, for direct `<img>` use in `slides.md`). Requires the `gh` CLI authenticated as a BioJulia admin/collaborator (needed for `starred_at` timestamps) and the Julia deps in `code/Project.toml`. Re-run the `.qmd` in Quarto to regenerate the plots; this is a one-off data-generation step, not something wired into `npm run dev`/`build`.
+
 ## Deployment
 
 Both `netlify.toml` and `vercel.json` are configured for static hosting of the built `dist/` output, with SPA-style catch-all rewrites to `index.html` (client-side routing between slides).

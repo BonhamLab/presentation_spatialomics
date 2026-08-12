@@ -1,0 +1,50 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use HTTPS for code.bonhamlab.bio (repo is public; avoids needing SSH keys in CI)
+        run: git config --global url."https://code.bonhamlab.bio/".insteadOf "ssh://git@code.bonhamlab.bio:443/"
+
+      - uses: oven-sh/setup-bun@v2
+
+      - run: bun install
+
+      - name: Build deck for GitHub Pages
+        # --base matches the repo name since Pages serves project sites from a
+        # subpath; --router-mode hash keeps in-app slide navigation working there.
+        run: bunx slidev build slides.md --base /presentation_spatialomics/ --router-mode hash
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
