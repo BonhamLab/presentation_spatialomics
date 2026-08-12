@@ -35,7 +35,8 @@ import { footerInfo } from './footer-info'
 
 <LabLogo size="7rem" class="mx-auto mb-8" />
 
-# SpatialOmics.jl - Using the geo, image, and data stacks to analyze spatial transcriptomics data
+# SpatialOmics.jl 
+## Using the geo, image, and data stacks to analyze spatial transcriptomics data
 
 
 <div class="mt-8 font-mono text-sm text-ink-muted">
@@ -59,21 +60,39 @@ layout: section
 
 # The "central dogma" of molecular biology
 
----
-
-# qPCR and FISH measure small numbers of transcripts in bulk or in tissue
+<img src="./images/central-dogma.jpg" class="max-h-[30vh] mx-auto" />
 
 ---
 
-# Bulk RNA sequencing measures gene expression in all cells at once
+# qPCR measures small numbers of transcripts in bulk
+
+<img src="./images/qPCR-1.png" class="max-h-[20vh] mx-auto" />
+<img src="./images/qPCR-2.jpg" class="max-h-[20vh] mx-auto" />
+---
+
+# Cell behavior = genes + transcription + organization
+
+<img src="./images/txn-genes.svg" class="max-h-[20vh] mx-auto" />
+<img src="./images/txn-cells.svg" class="max-h-[20vh] mx-auto" />
+<img src="./images/txn-tissues.svg" class="max-h-[20vh] mx-auto" />
 
 ---
 
-# Single cell RNAseq can measure expression in each cell indivudually
+# Bulk RNAseq assembles transcripts, divorced from cell context
 
+<img src="./images/txn-tissues.svg" class="max-h-[20vh] mx-auto" />
+<img src="./images/txn-bulk.svg" class="max-h-[20vh] mx-auto" />
+
+
+# Single cell RNAseq can measure expression in each cell individually
+
+<img src="./images/txn-tissues.svg" class="max-h-[20vh] mx-auto" />
+<img src="./images/txn-sc.svg" class="max-h-[20vh] mx-auto" />
 ---
 
 # Spatial transcriptomics measures expression in tissue section at high resolution
+
+<img src="./images/txn-tissues.svg" class="max-h-[20vh] mx-auto" />
 
 ---
 layout: section
@@ -83,17 +102,30 @@ layout: section
 
 ---
 
+# FISH - the original spatial transcriptomics
+
+<img src="./images/fish-probes.jpg" class="max-h-[20vh] mx-auto" />
+
+---
+
 # Sequencing-based platforms (eg 10x Visium)
  
+<img src="./images/visumhdf.jpg" class="max-h-[20vh] mx-auto" />
 ---
 
 # Probe-based (eg 10x Xenium, Nanostring CosMx)
+
+<img src="./images/cosmx.jpg" class="max-h-[20vh] mx-auto" />
 
 ---
 
 # SpatialData Standard
 
 
+<img src="./images/spatialdata_elements.webp" class="max-h-[20vh] mx-auto" />
+<img src="./images/spatialdata_horizontal.webp" class="max-h-[5vh]" />
+
+<div class="citation-caption">https://spatialdata.sciverse.org</div>
 
 ---
 layout: section

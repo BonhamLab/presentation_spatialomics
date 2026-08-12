@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="88.423958mm"
+   height="77.001503mm"
+   viewBox="0 0 88.42396 77.001503"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1"
+     transform="translate(110.21362,-155.21339)">
+    <path
+       style="fill:#ffaacc;stroke:#d35f8d;stroke-width:0.617491;stroke-miterlimit:2;stroke-dasharray:none"
+       id="path24"
+       d="m 163.9444,34.21152 -3.93653,-3.936534 -3.93654,-3.936533 5.37741,-1.440871 5.3774,-1.440872 -1.44087,5.377405 z"
+       transform="matrix(1.4510335,0,0,1.4510335,-336.36156,162.56212)" />
+    <path
+       style="fill:#ffaacc;stroke:#d35f8d;stroke-width:0.597327;stroke-miterlimit:2;stroke-dasharray:none"
+       id="path25"
+       d="m 152.57906,38.365256 -2.90778,-1.853601 -2.6456,2.211755 0.15138,-3.445014 -3.23824,-1.185276 3.05916,-1.591413 -0.59264,-3.39703 2.90779,1.8536 2.64559,-2.211754 -0.15137,3.445014 3.23823,1.185275 -3.05916,1.591413 z"
+       transform="matrix(1.4995073,0,0,1.5005284,-324.8592,173.76549)" />
+    <path
+       style="fill:#ffaacc;stroke:#d35f8d;stroke-width:0.934717;stroke-miterlimit:2;stroke-dasharray:none"
+       id="path26"
+       d="M 15.654788,23.592428 8.0658356,26.59434 1.6716264,21.523071 2.8663699,13.449889 10.455323,10.447976 16.849532,15.519245 Z"
+       transform="matrix(0.95891311,0,0,0.95824443,-110.63744,166.26527)" />
+    <path
+       style="fill:#ffaacc;fill-opacity:1;stroke:#d35f8d;stroke-width:1.29849;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1"
+       id="path27"
+       d="m -59.649767,186.00516 -9.047251,-5.50621 -10.588255,0.24489 5.506213,-9.04725 -0.244894,-10.58826 9.047251,5.50622 10.588255,-0.2449 -5.506213,9.04725 z"
+       transform="matrix(0.69003481,0,0,0.69003481,-55.003292,44.425726)" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:'Anthropic Sans', '-apple-system', BlinkMacSystemFont, 'Segoe UI', sans-serif;-inkscape-font-specification:'Anthropic Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;writing-mode:lr-tb;direction:ltr;fill:#cccccc;stroke:none;stroke-width:0.896001;stroke-miterlimit:2;stroke-dasharray:none"
+       x="-88.003899"
+       y="166.06009"
+       id="text31"><tspan
+         id="tspan31"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:'Anthropic Sans', '-apple-system', BlinkMacSystemFont, 'Segoe UI', sans-serif;-inkscape-font-specification:'Anthropic Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#cccccc;stroke:none;stroke-width:0.896"
+         x="-88.003899"
+         y="166.06009">Marker gene 1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:'Anthropic Sans', '-apple-system', BlinkMacSystemFont, 'Segoe UI', sans-serif;-inkscape-font-specification:'Anthropic Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;writing-mode:lr-tb;direction:ltr;fill:#cccccc;stroke:none;stroke-width:0.896001;stroke-miterlimit:2;stroke-dasharray:none"
+       x="-88.003899"
+       y="186.12468"
+       id="text32"><tspan
+         id="tspan32"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:'Anthropic Sans', '-apple-system', BlinkMacSystemFont, 'Segoe UI', sans-serif;-inkscape-font-specification:'Anthropic Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#cccccc;stroke:none;stroke-width:0.896"
+         x="-88.003899"
+         y="186.12468">Marker gene 2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:'Anthropic Sans', '-apple-system', BlinkMacSystemFont, 'Segoe UI', sans-serif;-inkscape-font-specification:'Anthropic Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;writing-mode:lr-tb;direction:ltr;fill:#cccccc;stroke:none;stroke-width:0.896001;stroke-miterlimit:2;stroke-dasharray:none"
+       x="-88.003899"
+       y="207.07123"
+       id="text33"><tspan
+         id="tspan33"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:'Anthropic Sans', '-apple-system', BlinkMacSystemFont, 'Segoe UI', sans-serif;-inkscape-font-specification:'Anthropic Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#cccccc;stroke:none;stroke-width:0.896"
+         x="-88.003899"
+         y="207.07123">Marker gene 3</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:'Anthropic Sans', '-apple-system', BlinkMacSystemFont, 'Segoe UI', sans-serif;-inkscape-font-specification:'Anthropic Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;writing-mode:lr-tb;direction:ltr;fill:#cccccc;stroke:none;stroke-width:0.896001;stroke-miterlimit:2;stroke-dasharray:none"
+       x="-88.003899"
+       y="227.35631"
+       id="text34"><tspan
+         id="tspan34"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:'Anthropic Sans', '-apple-system', BlinkMacSystemFont, 'Segoe UI', sans-serif;-inkscape-font-specification:'Anthropic Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#cccccc;stroke:none;stroke-width:0.896"
+         x="-88.003899"
+         y="227.35631">Activation gene</tspan></text>
+  </g>
+</svg>

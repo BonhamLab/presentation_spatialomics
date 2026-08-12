@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="93.433167mm"
+   height="107.47358mm"
+   viewBox="0 0 93.433169 107.47358"
+   version="1.1"
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <g
+     id="layer1"
+     transform="translate(123.50122,-19.430143)">
+    <path
+       style="fill:#afdde9;stroke:#37abc8;stroke-width:2.19604;stroke-miterlimit:2"
+       d="m -113.49398,42.275763 c -3.18065,-1.337252 -2.50059,-6.863968 -1.69094,-10.220878 0.87692,-3.635873 3.4228,-7.173647 6.67559,-9.014199 4.16937,-2.359178 9.999186,-3.485813 14.301761,-1.379916 4.726829,2.313548 7.472684,8.169265 8.453791,13.343918 0.717155,3.782469 0.106624,8.246101 -2.179629,11.342017 -2.452969,3.321683 -7.49377,8.084639 -10.936211,5.806882 -2.687902,-1.778502 2.187541,-6.720302 0.820785,-9.641081 -0.919125,-1.964169 -3.222907,-3.217152 -5.329257,-3.725682 -2.09186,-0.505029 -4.39243,0.09149 -6.3956,0.878196 -1.40985,0.553686 -2.32398,3.197797 -3.72029,2.610743 z"
+       id="path20" />
+    <path
+       style="fill:#deaa87;stroke:#c87137;stroke-width:2.19604;stroke-miterlimit:2"
+       d="m -108.77774,109.27011 c 2.35537,-5.4726 -1.47904,-4.9234 -2.63041,-10.399077 -1.15137,-5.47569 3.30038,8.186777 10.73272,6.159047 7.43234,-2.02775 12.403324,-4.07049 17.68225,-5.927357 11.206945,-3.94204 -2.054297,8.269107 -8.275453,9.582707 -6.221156,1.31361 -15.809077,1.72934 -22.840397,11.032 -7.03131,9.30267 -11.83467,6.84442 -4.94715,-0.22932 6.88751,-7.07374 10.27844,-10.218 10.27844,-10.218 z"
+       id="path21" />
+    <path
+       id="path22"
+       style="fill:#c6afe9;stroke:#8d5fd3;stroke-width:2.19604;stroke-miterlimit:2"
+       d="m -112.59126,68.554895 c 0.66184,-2.354495 1.41805,-5.366986 3.65788,-6.365705 2.82,-1.257414 6.91891,-0.294781 9.066201,1.918559 2.038655,2.101361 -0.656611,6.691791 1.535597,8.633614 1.407757,1.246969 3.887479,1.010916 5.641228,0.326186 2.192963,-0.856217 2.54803,-5.229509 4.898188,-5.074485 2.392221,0.157799 3.969334,3.403714 4.25902,5.775131 0.431654,3.533591 -1.626871,7.292108 -4.089228,9.871094 -2.266046,2.373375 -5.703634,3.509368 -8.91785,4.197576 -2.829006,0.60573 -5.892066,-0.929896 -8.679336,-0.155552 -2.93767,0.816126 -4.70525,4.586887 -7.74295,4.856392 -2.70154,0.23968 -6.30707,-0.633393 -7.54355,-3.038769 -1.14458,-2.226602 0.44362,-5.178288 1.78938,-7.290231 1.35283,-2.12303 4.77315,-2.484692 5.89107,-4.739363 1.32136,-2.664991 -0.57025,-6.052108 0.23435,-8.914447 z" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:'Anthropic Sans', '-apple-system', BlinkMacSystemFont, 'Segoe UI', sans-serif;-inkscape-font-specification:'Anthropic Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;writing-mode:lr-tb;direction:ltr;fill:#cccccc;stroke:none;stroke-width:0.896001;stroke-miterlimit:2;stroke-dasharray:none"
+       x="-74.113029"
+       y="39.71933"
+       id="text22"><tspan
+         id="tspan22"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:'Anthropic Sans', '-apple-system', BlinkMacSystemFont, 'Segoe UI', sans-serif;-inkscape-font-specification:'Anthropic Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#cccccc;stroke:none;stroke-width:0.896"
+         x="-74.113029"
+         y="39.71933">Cell type 1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:'Anthropic Sans', '-apple-system', BlinkMacSystemFont, 'Segoe UI', sans-serif;-inkscape-font-specification:'Anthropic Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;writing-mode:lr-tb;direction:ltr;fill:#cccccc;stroke:none;stroke-width:0.896001;stroke-miterlimit:2;stroke-dasharray:none"
+       x="-74.113029"
+       y="76.320663"
+       id="text23"><tspan
+         id="tspan23"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:'Anthropic Sans', '-apple-system', BlinkMacSystemFont, 'Segoe UI', sans-serif;-inkscape-font-specification:'Anthropic Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#cccccc;stroke:none;stroke-width:0.896"
+         x="-74.113029"
+         y="76.320663">Cell type 2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:'Anthropic Sans', '-apple-system', BlinkMacSystemFont, 'Segoe UI', sans-serif;-inkscape-font-specification:'Anthropic Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;writing-mode:lr-tb;direction:ltr;fill:#cccccc;stroke:none;stroke-width:0.896001;stroke-miterlimit:2;stroke-dasharray:none"
+       x="-74.113029"
+       y="104.54338"
+       id="text24"><tspan
+         id="tspan24"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:'Anthropic Sans', '-apple-system', BlinkMacSystemFont, 'Segoe UI', sans-serif;-inkscape-font-specification:'Anthropic Sans, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#cccccc;stroke:none;stroke-width:0.896"
+         x="-74.113029"
+         y="104.54338">Cell type 3</tspan></text>
+  </g>
+</svg>
