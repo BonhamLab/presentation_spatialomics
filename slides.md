@@ -1,6 +1,6 @@
 ---
 theme: seriph
-title: The State of BioJulia
+title: SpatialOmics.jl
 info: |
   ## SpatialOmics.jl - Using the geo, image, and data stacks to analyze spatial transcriptomics data
   JuliaCon 2026
@@ -35,9 +35,9 @@ import { footerInfo } from './footer-info'
 
 <LabLogo size="7rem" class="mx-auto mb-8" />
 
-# SpatialOmics.jl 
-## Using the geo, image, and data stacks to analyze spatial transcriptomics data
+# SpatialOmics.jl
 
+## Using the geo, image, and data stacks to analyze spatial transcriptomics data
 
 <div class="mt-8 font-mono text-sm text-ink-muted">
 {{ footerInfo.author }} · {{ footerInfo.date }}
@@ -50,11 +50,11 @@ import { footerInfo } from './footer-info'
 <Toc minDepth="1" maxDepth="1" />
 
 ---
+
 layout: section
 ---
 
 # Background - What is transcriptomics?
-
 
 ---
 
@@ -111,6 +111,7 @@ layout: section
 <img src="./images/cosmx.jpg" class="max-h-[20vh] mx-auto" />
 
 ---
+
 layout: section
 ---
 
@@ -124,8 +125,8 @@ layout: section
 
 ---
 
- 
 # Sequencing-based platforms (eg 10x Visium)
+
 <img src="./images/visumhdf.jpg" class="max-h-[20vh] mx-auto" />
 ---
 
@@ -136,7 +137,6 @@ layout: section
 ---
 
 # SpatialData Standard
-
 
 <img src="./images/spatialdata_elements.webp" class="max-h-[20vh] mx-auto" />
 <img src="./images/spatialdata_horizontal.webp" class="max-h-[5vh]" />
@@ -203,7 +203,6 @@ fov1_global = apply(fov1_to_global, fov1)
 
 </div>
 
-
 ---
 
 # JuliaImages, JuliaGeo, and Makie for working with visualization
@@ -224,6 +223,7 @@ julia> first(df_raw, 3)
    2 │  2141   2181      3  Lyve1
    3 │  2661   2653      9  Ccl21a
 ```
+
 <v-click>
 
 ```julia
@@ -234,6 +234,7 @@ ds["transcripts_raw"] = SpatialPoints(df_raw;
     coord_system="global_px"
 )
 ```
+
 </v-click>
 
 ---
@@ -251,11 +252,9 @@ sub = view(points(ds), roi) # or points(ds)[roi]
 <img src="./images/roi_view.png" class="max-h-[25vh] mx-auto" />
 </div>
 
-
 ---
 
 # Future directions
-
 
 <v-clicks>
 
@@ -267,6 +266,7 @@ sub = view(points(ds), roi) # or points(ds)[roi]
 </v-clicks>
 
 ---
+
 layout: center
 class: text-center
 ---
@@ -277,7 +277,6 @@ class: text-center
 
 <div class="text-ink-muted">
 
-Questions? Reach out — [bonhamlab.bio](https://bonhamlab.bio) · dev@bonham.ch
+Questions? Reach out — [bonhamlab.bio](https://bonhamlab.bio) · <dev@bonham.ch>
 
 </div>
-
