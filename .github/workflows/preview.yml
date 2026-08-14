@@ -1,0 +1,110 @@
+name: Build Preview
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write  # Required for posting PR comments
+
+jobs:
+  build-preview:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository with all submodules
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Cache Typst packages and fonts
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache/typst
+          ~/.local/share/typst
+          ~/.local/share/fonts
+        key: typst-${{ runner.os }}-${{ hashFiles('**/*.typ') }}
+        restore-keys: |
+          typst-${{ runner.os }}-
+
+    - name: Install Nerd Fonts
+      run: |
+        mkdir -p ~/.local/share/fonts
+        for font in FiraCode NerdFontsSymbolsOnly; do
+          wget -q "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${font}.zip" -O "/tmp/${font}.zip" \
+            && unzip -q -o "/tmp/${font}.zip" -d ~/.local/share/fonts/ \
+            && rm "/tmp/${font}.zip"
+        done
+        fc-cache -fv
+
+    - name: Install IBM Plex fonts
+      run: |
+        mkdir -p ~/.local/share/fonts
+        declare -A plex_releases=(
+          [mono]="%40ibm/plex-mono%402.5.0/ibm-plex-mono.zip"
+          [serif]="%40ibm/plex-serif%402.0.0/ibm-plex-serif.zip"
+          [sans]="%40ibm/plex-sans%401.1.0/ibm-plex-sans.zip"
+        )
+        for family in "${!plex_releases[@]}"; do
+          url="https://github.com/IBM/plex/releases/download/${plex_releases[$family]}"
+          wget -q "$url" -O "/tmp/plex-${family}.zip" \
+            && unzip -q -j -o "/tmp/plex-${family}.zip" "*/fonts/complete/ttf/*.ttf" -d ~/.local/share/fonts/ \
+            && rm "/tmp/plex-${family}.zip"
+        done
+        fc-cache -fv
+
+    - name: Setup Typst
+      uses: typst-community/setup-typst@v4
+      with:
+        typst-version: '0.13.1'
+
+    - name: Compile presentation
+      run: typst compile --root . --diagnostic-format short main.typ presentation.pdf
+
+    - name: Generate title slide preview
+      run: typst compile --root . --format png --pages 1 main.typ title-slide.png
+
+    - name: Upload preview artifacts
+      uses: actions/upload-artifact@v4
+      id: upload
+      with:
+        name: preview-${{ github.sha }}
+        path: |
+          presentation.pdf
+          title-slide.png
+        retention-days: 14
+
+    - name: Comment on PR with preview link
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const artifactUrl = `https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}`;
+          const body = `## Presentation Preview\n\n✅ Build succeeded — [download artifacts](${artifactUrl})\n\n> _Commit: ${{ github.sha }}_`;
+
+          const { data: comments } = await github.rest.issues.listComments({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            issue_number: context.issue.number,
+          });
+
+          const existing = comments.find(c => c.user.login === 'github-actions[bot]' && c.body.includes('Presentation Preview'));
+          if (existing) {
+            await github.rest.issues.updateComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: existing.id,
+              body,
+            });
+          } else {
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });
+          }

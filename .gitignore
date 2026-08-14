@@ -1,8 +1,5 @@
-node_modules
+presentation.pdf
+title-slide.png
 .DS_Store
-dist
-*.local
-.vite-inspect
-.remote-assets
-components.d.ts
-.claude/settings.local.json
+dist/
+node_modules/

@@ -1,0 +1,396 @@
+name: Build and Release Presentation
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:  # Allow manual triggering for testing
+
+permissions:
+  contents: write  # Required for uploading release assets
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    ####################
+    # Repository Setup #
+    ####################
+    
+    - name: Checkout repository with all submodules
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'          # Checkout all nested submodules
+        fetch-depth: 0                   # Full history for proper archiving
+        token: ${{ secrets.GITHUB_TOKEN }} # Use PAT if you have private submodules: ${{ secrets.SUBMODULE_PAT }}
+        clean: true                      # Clean working directory
+    
+    - name: Validate submodule checkout
+      run: |
+        echo "=== Submodule Status ==="
+        git submodule status --recursive
+        
+        echo "=== Checking submodule content ==="
+        # List all submodule directories to verify content exists
+        git submodule foreach --recursive 'echo "Submodule $displaypath:" && ls -la . | head -5'
+        
+        echo "✓ Submodule validation completed"
+    
+    ######################
+    # Typst Environment  #
+    ######################
+
+    - name: Install Nerd Fonts
+      run: |
+        echo "=== Installing Nerd Fonts ==="
+        
+        # Create fonts directory
+        mkdir -p ~/.local/share/fonts
+        
+        # Define which Nerd Fonts to install
+        # Add or remove fonts based on what your presentation uses
+        declare -a fonts=(
+          "FiraCode"
+          "NerdFontsSymbolsOnly"
+        )
+        
+        # Download and install each font
+        for font in "${fonts[@]}"; do
+          echo "Downloading ${font}..."
+          
+          # Download the font zip from latest release
+          wget -q --show-progress \
+            "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/${font}.zip" \
+            -O "/tmp/${font}.zip"
+          
+          if [ $? -eq 0 ]; then
+            echo "Installing ${font}..."
+            unzip -q -o "/tmp/${font}.zip" -d ~/.local/share/fonts/
+            rm "/tmp/${font}.zip"
+            echo "✓ ${font} installed"
+          else
+            echo "⚠️  Failed to download ${font}, skipping..."
+          fi
+        done
+        
+        # Refresh font cache
+        echo "=== Refreshing font cache ==="
+        fc-cache -fv
+
+        echo "=== Installed Nerd Fonts ==="
+        fc-list | grep -i "nerd" | head -20
+
+        echo "✓ Nerd Fonts installation completed"
+
+    - name: Install IBM Plex fonts
+      run: |
+        echo "=== Installing IBM Plex fonts (used by the Bonham Lab theme) ==="
+
+        mkdir -p ~/.local/share/fonts
+
+        declare -A plex_releases=(
+          [mono]="%40ibm/plex-mono%402.5.0/ibm-plex-mono.zip"
+          [serif]="%40ibm/plex-serif%402.0.0/ibm-plex-serif.zip"
+          [sans]="%40ibm/plex-sans%401.1.0/ibm-plex-sans.zip"
+        )
+
+        for family in "${!plex_releases[@]}"; do
+          echo "Downloading IBM Plex ${family}..."
+          url="https://github.com/IBM/plex/releases/download/${plex_releases[$family]}"
+          if wget -q "$url" -O "/tmp/plex-${family}.zip"; then
+            unzip -q -j -o "/tmp/plex-${family}.zip" "*/fonts/complete/ttf/*.ttf" -d ~/.local/share/fonts/
+            rm "/tmp/plex-${family}.zip"
+            echo "✓ IBM Plex ${family} installed"
+          else
+            echo "⚠️  Failed to download IBM Plex ${family}, skipping..."
+          fi
+        done
+
+        fc-cache -fv
+        echo "=== Installed IBM Plex fonts ==="
+        fc-list | grep -i "ibm plex" | head -20
+
+        echo "✓ IBM Plex installation completed"
+
+    - name: Cache Typst packages and fonts
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache/typst
+          ~/.local/share/typst
+          ~/.local/share/fonts
+        key: typst-${{ runner.os }}-${{ hashFiles('**/*.typ') }}
+        restore-keys: |
+          typst-${{ runner.os }}-
+    
+    - name: Setup Typst with Touying support
+      uses: typst-community/setup-typst@v4
+      with:
+        typst-version: '0.13.1'  # Pin specific version for reproducibility
+        cache-dependency-path: 'main.typ'  # Cache based on main file changes
+    
+    - name: Verify Typst installation
+      run: |
+        echo "=== Typst Version ==="
+        typst --version
+        
+        echo "=== Available Fonts ==="
+        typst fonts | head -10
+        
+        echo "✓ Typst installation verified"
+    
+    ########################
+    # Build Presentation   #
+    ########################
+    
+    - name: Compile Touying presentation
+      run: |
+        echo "=== Starting Typst compilation ==="
+        
+        # Compile with comprehensive error handling
+        if typst compile \
+          --root . \
+          --diagnostic-format short \
+          main.typ presentation.pdf; then
+          
+          echo "✓ Compilation successful"
+          
+          # Verify PDF was created and has reasonable size
+          if [ -f "presentation.pdf" ]; then
+            size=$(stat -c%s presentation.pdf)
+            echo "✓ PDF generated successfully: presentation.pdf (${size} bytes)"
+            
+            # Basic size validation (should be at least 10KB for a real presentation)
+            if [ "$size" -lt 10240 ]; then
+              echo "⚠️  Warning: PDF seems unusually small (${size} bytes)"
+            fi
+          else
+            echo "❌ Error: PDF was not generated"
+            exit 1
+          fi
+        else
+          echo "❌ Compilation failed"
+          
+          # Debug information for troubleshooting
+          echo "=== Debug Information ==="
+          echo "Current directory contents:"
+          ls -la
+          echo "Main.typ exists:" && [ -f main.typ ] && echo "✓ Yes" || echo "❌ No"
+          echo "Available packages:"
+          ls ~/.cache/typst/packages/ 2>/dev/null || echo "No cached packages"
+          
+          exit 1
+        fi
+    
+    - name: Validate presentation output
+      run: |
+        echo "=== Presentation Validation ==="
+
+        # Check PDF properties using file command
+        file presentation.pdf
+
+        # Try to extract basic info (requires poppler-utils, which is available on Ubuntu)
+        if command -v pdfinfo &> /dev/null; then
+          echo "=== PDF Information ==="
+          pdfinfo presentation.pdf | head -10
+        fi
+
+        echo "✓ Presentation validation completed"
+
+    - name: Generate title slide preview
+      run: |
+        echo "=== Generating title slide PNG ==="
+        typst compile --root . --format png --pages 1 main.typ title-slide.png
+        echo "✓ Title slide preview generated: title-slide.png"
+    
+    ########################
+    # Create Release Assets#
+    ########################
+    
+    - name: Create comprehensive source archive
+      run: |
+        echo "=== Creating source archive with submodules ==="
+        
+        # Create archive name based on release tag or timestamp
+        if [ -n "${{ github.ref_name }}" ] && [ "${{ github.ref_name }}" != "main" ]; then
+          ARCHIVE_NAME="touying-presentation-${{ github.ref_name }}-source"
+        else
+          ARCHIVE_NAME="touying-presentation-$(date +%Y%m%d-%H%M%S)-source"
+        fi
+        
+        # Create a temporary directory for the archive
+        mkdir -p /tmp/archive-staging
+        ARCHIVE_PATH="/tmp/archive-staging/${ARCHIVE_NAME}.tar.gz"
+        
+        # Create comprehensive archive excluding CI artifacts but including all source and submodules
+        # Use absolute path for output to avoid circular reference
+        tar --exclude='.git' \
+            --exclude='.github' \
+            --exclude='*.log' \
+            --exclude='*.tmp' \
+            --exclude='.DS_Store' \
+            --exclude='Thumbs.db' \
+            --exclude='presentation.pdf' \
+            --exclude='*.tar.gz' \
+            -czf "${ARCHIVE_PATH}" .
+        
+        # Move archive back to working directory
+        mv "${ARCHIVE_PATH}" "./${ARCHIVE_NAME}.tar.gz"
+        
+        # Verify archive was created successfully
+        if [ -f "${ARCHIVE_NAME}.tar.gz" ]; then
+          size=$(stat -c%s "${ARCHIVE_NAME}.tar.gz")
+          echo "✓ Archive created: ${ARCHIVE_NAME}.tar.gz (${size} bytes)"
+          
+          # Test archive integrity
+          if tar -tzf "${ARCHIVE_NAME}.tar.gz" > /dev/null; then
+            echo "✓ Archive integrity verified"
+          else
+            echo "❌ Archive integrity check failed"
+            exit 1
+          fi
+          
+          # List archive contents for verification (first 20 entries)
+          echo "=== Archive Contents (sample) ==="
+          tar -tzf "${ARCHIVE_NAME}.tar.gz" | head -20
+          
+          # Show total number of files in archive
+          total_files=$(tar -tzf "${ARCHIVE_NAME}.tar.gz" | wc -l)
+          echo "Total files in archive: ${total_files}"
+        else
+          echo "❌ Failed to create archive"
+          exit 1
+        fi
+        
+        # Cleanup temporary directory
+        rm -rf /tmp/archive-staging
+        
+        # Save archive name for later steps
+        echo "ARCHIVE_NAME=${ARCHIVE_NAME}" >> $GITHUB_ENV
+    
+    - name: Prepare release artifacts
+      run: |
+        echo "=== Preparing release artifacts ==="
+        
+        # Create release directory
+        mkdir -p release-assets
+        
+        # Copy artifacts to release directory with descriptive names
+        cp presentation.pdf "release-assets/"
+        cp "${ARCHIVE_NAME}.tar.gz" "release-assets/"
+        cp title-slide.png "release-assets/"
+        
+        # Create checksums for integrity verification
+        cd release-assets
+        sha256sum * > checksums.sha256
+        
+        echo "=== Release Assets Ready ==="
+        ls -la
+        cat checksums.sha256
+    
+    - name: Generate release notes
+      run: |
+        echo "=== Generating release notes ==="
+        
+        # Get dynamic values
+        TYPST_VERSION=$(typst --version)
+        BUILD_DATE=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+        
+        cat > release-notes.md << EOF
+        # 📊 Presentation Release
+        
+        This release contains the compiled presentation and complete source code with all submodule dependencies.
+        
+        ## 📁 Included Files
+        
+        - **presentation.pdf** - The compiled presentation in PDF format
+        - **${{ env.ARCHIVE_NAME }}.tar.gz** - Complete source code with all submodules and assets
+        - **checksums.sha256** - SHA256 checksums for verification
+        
+        ## 🔧 Build Information
+        
+        - **Typst Version**: ${TYPST_VERSION}
+        - **Build Date**: ${BUILD_DATE}
+        - **Repository**: ${{ github.repository }}
+        - **Commit**: ${{ github.sha }}
+        
+        ## ✅ Verification
+        
+        Verify file integrity using the provided checksums:
+        
+            sha256sum -c checksums.sha256
+        
+        ## 🚀 Usage
+        
+        To rebuild the presentation:
+        1. Extract the source archive: tar -xzf ${{ env.ARCHIVE_NAME }}.tar.gz
+        2. Install Typst: https://github.com/typst/typst#installation
+        3. Compile: typst compile main.typ presentation.pdf
+        
+        EOF
+        
+        echo "✓ Release notes generated"
+    
+    ########################
+    # Upload to Release    #
+    ########################
+    
+    - name: Upload release artifacts
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          release-assets/presentation.pdf
+          release-assets/${{ env.ARCHIVE_NAME }}.tar.gz
+          release-assets/checksums.sha256
+          release-assets/title-slide.png
+        name: "Presentation Release ${{ github.ref_name }}"
+        body_path: release-notes.md
+        draft: false
+        prerelease: false
+        fail_on_unmatched_files: true
+        generate_release_notes: false  # We provide custom release notes
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    ########################
+    # Error Recovery       #
+    ########################
+    
+    - name: Upload build artifacts on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: debug-artifacts-${{ github.run_id }}
+        path: |
+          **/*.typ
+          **/*.log
+          presentation.pdf
+          release-assets/
+        retention-days: 7
+    
+    - name: Debug information on failure
+      if: failure()
+      run: |
+        echo "=== Build Failure Debug Information ==="
+        echo "Working directory:"
+        pwd
+        
+        echo "Directory contents:"
+        find . -type f -name "*.typ" -o -name "*.pdf" -o -name "*.log" -o -name "*.tar.gz" | head -20
+        
+        echo "Git status:"
+        git status
+        
+        echo "Git submodule status:"
+        git submodule status --recursive
+        
+        echo "Typst version:"
+        typst --version || echo "Typst not available"
+        
+        echo "Environment variables:"
+        env | grep -E "(TYPST|GITHUB)" | sort
+        
+        echo "System info:"
+        uname -a
+        df -h
+        free -h

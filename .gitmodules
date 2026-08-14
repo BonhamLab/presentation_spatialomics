@@ -1,0 +1,3 @@
+[submodule "assets/general"]
+	path = assets/general
+	url = git@github.com:BonhamLab/assets_lab_general
